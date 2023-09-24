@@ -3,15 +3,31 @@ from fastapi import FastAPI
 from AIModel import analyzeCV, generateCodeSnippet
 from dotenv import dotenv_values
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 config = dotenv_values(".env")
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",  # Replace with your frontend's URL
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+    allow_credentials=True,  # Set this to True if you need to allow cookies or authentication headers
+)
+
 @app.on_event("startup")
 def startup_db_client():
-  app.mongodb_client = MongoClient(config["DATABASE_URL"])
+  
+  app.mongodb_client = MongoClient(config["DATABASE_URL"], server_api = ServerApi('1'))
   app.database = app.mongodb_client[config["DB_NAME"]]
+  app.mycol = app.database["usermodels"]
   print("Connected to the MongoDB database!")
 
 @app.on_event("shutdown")
@@ -30,8 +46,8 @@ class User(BaseModel):
 @app.post("/create")
 async def create_user(user: User):
   try:
-    new_user = app.database.users.insert_one(user)
-    print("User created")
+    print(user.email)
+    new_user = app.database["usermodels"].insert_one(user)
     return new_user
   except:
     print("Error creating user")
