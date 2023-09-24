@@ -67,10 +67,15 @@ async def analyze_cv(cv: CV):
     return "ERROR"
   
 
+class Code(BaseModel):
+  languages: str
+  skills: str
+  tools: str
+
 @app.post("/generateCode")
-async def generateCode(promt: str):
+async def generateCode(promt: Code):
   try:
-    analyzed_cv = generateCodeSnippet(promt)
+    analyzed_cv = generateCodeSnippet(promt.languages, promt.skills, promt.tools)
     print("Code generated")
     return analyzed_cv
   except:

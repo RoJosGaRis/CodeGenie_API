@@ -117,17 +117,32 @@ chatbot_resume = Chatbot(
 )
 
 
-def generateCodeSnippet(promt):
+def generateCodeSnippet(languages, skills, tools):
+  chatbot_codeGenerator = Chatbot(
+    model=model,
+    description="""You are an code generator tool which generates code challenges based on different parameters.
+      You should generate coding question based on the given parameters. Make sure to create problems with test 
+      cases that are easy to understand and that are not too long.
+      In this case, consider that the user has experience in """ + languages + skills + tools +
+      """The JSON format should be as following:
+      'results': {
+        'problem': [],
+        'test_cases': [],
+        'language': ,
+      }""",
+    filters=filters_code,
+    cache=cache,
+    verbose=True,
+  )
+
   response = ""
   flag = False
 
   while not flag:
     try:
-      response = chatbot_code.chat(promt, print_cache_score=False)
-      # {"message":{"role":"assistant","content":"{\n  \"results\": {\n    \"data_structures\": [],\n    \"libraries\": [],\n    \"tools\": [],\n    \"score\": ,\n    \"difficulty\":\n  }\n}"},"created":1695548263,"latency":812,"from_cache":false,"model":"gpt-35-turbo-16k","usage":{"prompt_tokens":99,"completion_tokens":24,"total_tokens":123},"additional_kwargs":{}}
+      response = chatbot_codeGenerator.chat("Please generate the JSON with my coding challenge.", print_cache_score=False)
       parsed_response = response.message.content.replace("\n", "").replace(" ", "").replace("\'", "")
       print(parsed_response)
-      # "{results:{data_structures:[],libraries:[],tools:[],score:,difficulty:}}"
       response = json.loads(parsed_response)["results"]
       flag = True
 
