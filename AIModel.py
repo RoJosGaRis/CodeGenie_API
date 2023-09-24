@@ -103,6 +103,7 @@ chatbot_code = Chatbot(
 chatbot_resume = Chatbot(
   model=model,
   description="""You are an analizing tool which specializes in the extraction of programming languages used, skills and tools in resumes.
+    Remember to only inlude programming languages in the JSON, not spoken languages. Also, always base your findings on the context of the current resume, not previous one.
     Your job is to analyze the given resume and find the mentioned information, returning a JSON object with the findings.
     The JSON format should be as following:
     'results': {
