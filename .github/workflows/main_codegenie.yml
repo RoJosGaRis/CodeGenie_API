@@ -25,7 +25,7 @@ jobs:
         run: |
           npm install
           node index.js
-        environment:
+        env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Upload artifact for deployment job
