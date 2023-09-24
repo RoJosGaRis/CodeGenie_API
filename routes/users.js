@@ -13,16 +13,17 @@ router.get("/users", async (req, res) => {
 
 // POST One
 router.post("/create", async (req, res) => {
-  console.log(JSON.stringify(req.body));
+  console.log(req.body);
 
   const user = new UserModel({
-    user: req.body.user,
-    expires: req.body.expires,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
   });
 
   try {
-    const user = await user.save();
-    res.status(201).json(user);
+    const newUser = await user.save();
+    res.status(201).json(newUser);
     console.log("User created");
   } catch (err) {
     console.log(err.message);
