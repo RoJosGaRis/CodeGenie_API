@@ -24,7 +24,6 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          node index.js
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
