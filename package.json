@@ -1,0 +1,22 @@
+{
+  "name": "codegenie_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diegogtz03/CodeGenie_API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Diegogtz03/CodeGenie_API/issues"
+  },
+  "homepage": "https://github.com/Diegogtz03/CodeGenie_API#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
