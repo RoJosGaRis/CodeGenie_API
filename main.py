@@ -7,13 +7,11 @@ from pymongo.server_api import ServerApi
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-config = dotenv_values(".env")
-app = FastAPI()
-
 origins = [
     "http://localhost:3000",  # Replace with your frontend's URL
 ]
-
+config = dotenv_values(".env")
+app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -21,6 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
     allow_credentials=True,  # Set this to True if you need to allow cookies or authentication headers
 )
+
+
 
 @app.on_event("startup")
 def startup_db_client():
@@ -46,9 +46,9 @@ class User(BaseModel):
 @app.post("/create")
 async def create_user(user: User):
   try:
-    print(user.email)
-    new_user = app.database["usermodels"].insert_one(user)
-    return new_user
+    user_data = dict(user.dict())  # Convert Pydantic model to dictionary
+    new_user = app.mycol.insert_one(user_data) 
+    # return new_user
   except:
     print("Error creating user")
     return "ERROR"
@@ -66,7 +66,6 @@ async def analyze_cv(cv: CV):
     print("Error analyzing CV")
     return "ERROR"
   
-
 class Code(BaseModel):
   languages: str
   skills: str
