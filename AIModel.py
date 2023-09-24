@@ -141,7 +141,7 @@ def generateCodeSnippet(languages, skills, tools):
   while not flag:
     try:
       response = chatbot_codeGenerator.chat("Please generate the JSON with my coding challenge.", print_cache_score=False)
-      parsed_response = response.message.content.replace("\n", "").replace(" ", "").replace("\'", "")
+      parsed_response = response.message.content.replace("\n", "").replace("\'", "")
       print(parsed_response)
       response = json.loads(parsed_response)["results"]
       flag = True
