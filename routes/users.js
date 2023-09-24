@@ -13,7 +13,7 @@ router.get("/users", async (req, res) => {
 
 // POST One
 router.post("/create", async (req, res) => {
-  console.log(req.body);
+  console.log(JSON.stringify(req.body));
 
   const user = new UserModel({
     user: req.body.user,
