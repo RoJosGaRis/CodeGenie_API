@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +25,8 @@ jobs:
         run: |
           npm install
           node index.js
+        environment:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
